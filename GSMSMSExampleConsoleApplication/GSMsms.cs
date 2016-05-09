@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO.Ports;
 using System.Management;
+using System.Threading;
 
 namespace GSMSMSExampleConsoleApplication
 {
@@ -79,10 +80,7 @@ namespace GSMSMSExampleConsoleApplication
 
         public bool Connect()
         {
-            if (gsmPort == null || IsConnected || gsmPort.IsOpen)
-            {
-                IsConnected = false;
-            } else
+            if (gsmPort == null || !IsConnected || !gsmPort.IsOpen)
             {
                 GSMcom com = Search();
                 if (com != null)
@@ -112,14 +110,65 @@ namespace GSMSMSExampleConsoleApplication
                 }
                
             }
+           
             return IsConnected;
         }
 
         public void Disconnect()
         {
+            if (gsmPort != null || IsConnected || gsmPort.IsOpen)
+            {
+                gsmPort.Close();
+                gsmPort.Dispose();
+                IsConnected = false;
+            }
+        }
+
+        public void Read()
+        {
+            Console.WriteLine("Reading..");
+
+            gsmPort.WriteLine("AT+CMGF=1"); // Set mode to Text(1) or PDU(0)
+            Thread.Sleep(1000); // Give a second to write
+            gsmPort.WriteLine("AT+CPMS=\"SM\""); // Set storage to SIM(SM)
+            Thread.Sleep(1000);
+            gsmPort.WriteLine("AT+CMGL=\"ALL\""); // What category to read ALL, REC READ, or REC UNREAD
+            Thread.Sleep(1000);
+
+            string response = gsmPort.ReadExisting();
+
+            if (response.EndsWith("\r\nOK\r\n")) {
+                Console.WriteLine(response);
+            } else
+            {
+                // add more code here to handle error.
+                Console.WriteLine(response);
+            }
 
         }
 
+        public void Send(string toAdress, string message)
+        {
+            Console.WriteLine("Sending..");
 
+            gsmPort.WriteLine("AT+CMGF=1"); // Set mode to Text(1) or PDU(0)
+            Thread.Sleep(1000);
+            gsmPort.WriteLine($"AT+CMGS=\"{toAdress}\"");
+            Thread.Sleep(1000);
+            gsmPort.WriteLine(message + char.ConvertFromUtf32(26));
+            Thread.Sleep(5000);
+
+            string response = gsmPort.ReadExisting();
+
+            if (response.EndsWith("\r\nOK\r\n") && response.Contains("+CMGS:")) // IF CMGS IS MISSING IT MEANS THE MESSAGE WAS NOT SENT!
+            {
+                Console.WriteLine(response);
+            }
+            else
+            {
+                // add more code here to handle error.
+                Console.WriteLine(response);
+            }
+        }
     }
 }
