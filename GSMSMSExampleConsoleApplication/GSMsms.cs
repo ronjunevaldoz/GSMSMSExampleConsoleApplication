@@ -10,6 +10,7 @@ namespace GSMSMSExampleConsoleApplication
     {
         private SerialPort gsmPort = null;
         private bool IsDeviceFound { get; set; } = false;
+        public bool IsConnected { get; set; } = false;
 
         public GSMsms ()
         {
@@ -48,7 +49,7 @@ namespace GSMSMSExampleConsoleApplication
             return gsmCom.ToArray();
         }
 
-        public bool Search()
+        public GSMcom Search()
         {
            
             //foreach (GSMcom com in List())
@@ -64,16 +65,59 @@ namespace GSMSMSExampleConsoleApplication
             {
                 IsDeviceFound = false;
                 Console.WriteLine("No GSM device found!");
-                // Part 2 video create Disconnect method
+                //Disconnect();
             }
             else
             {
                 IsDeviceFound = true;
-                Console.WriteLine(com.Description + " " + com.Name);
-                // Part 2 video create Connect method
+                Console.WriteLine(com.ToString());
+                //Connect();
             }
 
-            return IsDeviceFound;
+            return com;
+        }
+
+        public bool Connect()
+        {
+            if (gsmPort == null || IsConnected || gsmPort.IsOpen)
+            {
+                IsConnected = false;
+            } else
+            {
+                GSMcom com = Search();
+                if (com != null)
+                {
+                    try
+                    {
+                        gsmPort.PortName = com.Name;
+                        gsmPort.BaudRate = 9600;
+                        gsmPort.Parity = Parity.None;
+                        gsmPort.DataBits = 8;
+                        gsmPort.StopBits = StopBits.One;
+                        gsmPort.Handshake = Handshake.RequestToSend;
+                        gsmPort.DtrEnable = true;    // Data-terminal-ready
+                        gsmPort.RtsEnable = true;    // Request-to-send
+                        gsmPort.NewLine = Environment.NewLine;
+                        gsmPort.Open();
+                        IsConnected = true;
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.Message);
+                        IsConnected = false;
+                    }
+                } else
+                {
+                    IsConnected = false;
+                }
+               
+            }
+            return IsConnected;
+        }
+
+        public void Disconnect()
+        {
+
         }
 
 

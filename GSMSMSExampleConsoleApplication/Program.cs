@@ -12,9 +12,10 @@ namespace GSMSMSExampleConsoleApplication
         {
             GSMsms sms = new GSMsms();
 
-            sms.Search();
+            //sms.Search();
+            sms.Connect();
+            Console.WriteLine(sms.IsConnected);
 
-            // I will remove the GSM modem now.
 
             Console.Read();
         }
