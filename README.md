@@ -16,7 +16,10 @@ foreach(GSMcom com in coms ) {
 ```C#
 GSMsms sms = new GSMsms();
 GSMcom com = sms.Search(); // return first gsm device found
-Console.WriteLine(com.ToString()); // will print portDescription portName same behaviors as Console.WriteLine(portDescription + " " + portName);
+if(sms.IsDeviceFound) { // if (com != null) {
+  Console.WriteLine(com.ToString()); // will print portDescription portName same behaviors as Console.WriteLine(portDescription + " " + portName);
+}
+Console.WriteLine(sms.IsDeviceFound);
 ```
 ### Connect (open serial port via first gsm device found)
 ```C#
