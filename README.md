@@ -31,14 +31,14 @@ sms.Disconnect();
 ### Read (read sms)
 ```C#
 GSMsms sms = new GSMsms();
-if(sms.isConnected) {
+if(sms.IsConnected) {
   sms.Read();
 }
 ```
 ### Send (send sms)
 ```C#
 GSMsms sms = new GSMsms();
-if(sms.isConnected) {
+if(sms.IsConnected) {
   sms.Send("NUMBER HERE", "MESSAGE HERE");
 }
 ```
