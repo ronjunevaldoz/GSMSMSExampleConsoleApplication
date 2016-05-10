@@ -1,5 +1,5 @@
 # GSMSMSExampleConsoleApplication
-```C# Application``` - Send and Receive SMS using GSM Offline
+C# Application - Send and Receive SMS using GSM Offline
 ## Getting Started
 Basic example on how to send and receive sms using gsm device
 ### List (list all GSM Devices)
