@@ -139,7 +139,9 @@ namespace GSMSMSExampleConsoleApplication
 
             if (response.EndsWith("\r\nOK\r\n")) {
                 Console.WriteLine(response);
-            } else
+                // add more code here to manipulate reponse string.
+            }
+            else
             {
                 // add more code here to handle error.
                 Console.WriteLine(response);
@@ -163,6 +165,7 @@ namespace GSMSMSExampleConsoleApplication
             if (response.EndsWith("\r\nOK\r\n") && response.Contains("+CMGS:")) // IF CMGS IS MISSING IT MEANS THE MESSAGE WAS NOT SENT!
             {
                 Console.WriteLine(response);
+                // add more code here to manipulate reponse string.
             }
             else
             {
