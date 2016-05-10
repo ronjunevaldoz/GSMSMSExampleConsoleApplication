@@ -1,11 +1,22 @@
 # GSMSMSExampleConsoleApplication
-C# ```Application``` - Send and Receive SMS using GSM Offline
+```C# Application``` - Send and Receive SMS using GSM Offline
 ## Getting Started
 Basic example on how to send and receive sms using gsm device
-### Search (search for GSM Devices)
+### List (list all GSM Devices)
 ```C#
 GSMsms sms = new GSMsms();
-sms.Search();
+List<GSMcom> coms = sms.List(); // returns all gsm devices
+foreach(GSMcom com in coms ) {
+  string portName = com.portName;
+  string portDescription = com.portDescription;
+  Console.WriteLine(portDescription + " " + portName);
+}
+```
+### Search (get first GSM Device)
+```C#
+GSMsms sms = new GSMsms();
+GSMcom com = sms.Search(); // return first gsm device found
+Console.WriteLine(com.ToString()); // will print portDescription portName same behaviors as Console.WriteLine(portDescription + " " + portName);
 ```
 ### Connect (open serial port via first gsm device found)
 ```C#
