@@ -134,6 +134,8 @@ namespace GSMSMSExampleConsoleApplication
             Thread.Sleep(1000);
             gsmPort.WriteLine("AT+CMGL=\"ALL\""); // What category to read ALL, REC READ, or REC UNREAD
             Thread.Sleep(1000);
+            gsmPort.Write("\r");
+            Thread.Sleep(1000);
 
             string response = gsmPort.ReadExisting();
 

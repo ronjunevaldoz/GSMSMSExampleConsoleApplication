@@ -22,8 +22,8 @@ namespace GSMSMSExampleConsoleApplication
             // Replug gsm device or sim card
             if (sms.IsConnected)
             {
-                //sms.Read();
-                sms.Send("222", "BAL"); // THIS IS NOT RECOMMENDED, SOMETIMES GLOBE RESPONSE IS TAKING TOO LONG, I JUST USE THIS BECAUSE I DONT HAVE CREDIT
+                sms.Read();
+                //sms.Send("222", "BAL"); // THIS IS NOT RECOMMENDED, SOMETIMES GLOBE RESPONSE IS TAKING TOO LONG, I JUST USE THIS BECAUSE I DONT HAVE CREDIT
             }
 
             Console.Read();
